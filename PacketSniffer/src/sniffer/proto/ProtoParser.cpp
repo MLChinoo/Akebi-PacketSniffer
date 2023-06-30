@@ -2,8 +2,11 @@
 #include "ProtoParser.h"
 #include <memory>
 #include <google/protobuf/util/type_resolver_util.h>
+#include <regex>
 
 using namespace google::protobuf;
+using recursive_directory_iterator = std::filesystem::recursive_directory_iterator;
+
 namespace sniffer
 {
 	class ErrorCollector : public compiler::MultiFileErrorCollector
@@ -190,17 +193,25 @@ namespace sniffer
 	Message* ProtoParser::ParseMessage(const std::string& name, const std::vector<byte>& data)
 	{
 		const std::lock_guard<std::mutex> lock(_mutex);
+		auto desc = m_Importer->pool()->FindMessageTypeByName("proto." + name);
+		if (desc)
+		{
+			auto message = m_Factory->GetPrototype(desc)->New(); //m_Importer->Import(name + ".proto");
 
-		auto fileDescriptor = m_Importer->Import(name + ".proto");
-		if (fileDescriptor == nullptr || fileDescriptor->message_type_count() == 0)
+			/*
+			if (fileDescriptor == nullptr || fileDescriptor->message_type_count() == 0)
+				return nullptr;
+
+			auto message = m_Factory->GetPrototype(fileDescriptor->message_type(0))->New();
+			auto message = m_Factory->GetPrototype(fileDescriptor->FindMessageTypeByName(name))->New();
+			*/
+
+			std::string stringData((char*)data.data(), data.size());
+			message->ParseFromString(stringData);
+			return message;
+		}
+		else
 			return nullptr;
-
-		auto message = m_Factory->GetPrototype(fileDescriptor->message_type(0))->New();
-
-		std::string stringData((char*)data.data(), data.size());
-		message->ParseFromString(stringData);
-
-		return message;
 	}
 
 	ProtoParser::ProtoParser()
@@ -212,6 +223,18 @@ namespace sniffer
 	{
 		LoadIDsFromFile(idFilePath);
 		LoadProtoDir(protoDir);
+
+		for (const auto& dirEntry : recursive_directory_iterator(protoDir))
+		{
+			if (dirEntry.path().extension() == ".proto")
+			{
+				std::cout << dirEntry << std::endl;
+				auto pathStr = dirEntry.path().string();
+				pathStr.replace(pathStr.find(protoDir), protoDir.size() + 1, "");
+				std::string const result = std::regex_replace(pathStr, std::regex("\\\\"), "/");
+				m_Importer->Import(result);
+			}
+		}
 	}
 
 	void ProtoParser::Load(const std::string& protoDir)

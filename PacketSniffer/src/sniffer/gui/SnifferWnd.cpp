@@ -13,6 +13,7 @@
 #include <sniffer/gui/FilterWnd.h>
 #include <sniffer/gui/PacketModifyWnd.h>
 #include <sniffer/gui/ScriptManagerWnd.h>
+#include <sniffer/gui/DumpPacketsWnd.h>
 
 #include <sniffer/gui/ScriptEditor.h>
 
@@ -41,6 +42,7 @@ namespace sniffer::gui
 		ADD_WINDOW(FilterWnd);
 		ADD_WINDOW(FavoritePacketWnd);
 		ADD_WINDOW(CapturePacketWnd);
+		ADD_WINDOW(DumpPacketsWnd);
 
 #undef ADD_WINDOW
 	}

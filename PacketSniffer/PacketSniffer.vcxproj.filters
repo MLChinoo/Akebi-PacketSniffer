@@ -144,6 +144,9 @@
     <ClCompile Include="src\sniffer\gui\ScriptEditor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\sniffer\gui\DumpPacketsWnd.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework\pch.h">
@@ -303,6 +306,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\sniffer\gui\ScriptEditor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\sniffer\gui\DumpPacketsWnd.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

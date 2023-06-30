@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClCompile Include="src\sniffer\filter\comparers.cpp" />
     <ClCompile Include="src\sniffer\filter\FilterManager.cpp" />
+    <ClCompile Include="src\sniffer\gui\DumpPacketsWnd.cpp" />
     <ClCompile Include="src\sniffer\gui\ScriptEditor.cpp" />
     <ClCompile Include="src\sniffer\gui\util.cpp" />
     <ClCompile Include="src\sniffer\script\MemoryScript.cpp" />
@@ -79,6 +80,7 @@
     <ClInclude Include="src\sniffer\filter\comparers.h" />
     <ClInclude Include="src\sniffer\filter\FilterManager.h" />
     <ClInclude Include="src\sniffer\filter\IFilterContainer.h" />
+    <ClInclude Include="src\sniffer\gui\DumpPacketsWnd.h" />
     <ClInclude Include="src\sniffer\gui\ScriptEditor.h" />
     <ClInclude Include="src\sniffer\gui\util.h" />
     <ClInclude Include="src\sniffer\Profiler.h" />
